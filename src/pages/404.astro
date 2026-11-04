@@ -1,0 +1,74 @@
+---
+// src/pages/404.astro — Página de error 404
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout
+  title="Página no encontrada — Iván León Capote"
+  description="La página que buscas no existe. Vuelve a la hoja de vida de Iván León Capote."
+>
+  <main class="not-found" id="contenido" tabindex="-1">
+    <div class="not-found-inner">
+      <p class="not-found-code">404</p>
+      <h1 class="not-found-title">Página no encontrada</h1>
+      <p class="not-found-text">
+        El enlace que seguiste no existe o cambió de lugar.
+      </p>
+      <a class="btn btn-primary" href={`${base}/`}>
+        Volver a la hoja de vida
+      </a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .not-found {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .not-found::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+    top: -200px;
+    left: -200px;
+    filter: blur(60px);
+  }
+
+  .not-found-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .not-found-code {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 18vw, 10rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+  }
+
+  .not-found-title {
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    margin: 1rem 0 0.75rem;
+  }
+
+  .not-found-text {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+</style>

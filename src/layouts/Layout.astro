@@ -4,12 +4,53 @@ export interface Props {
   description?: string;
 }
 
+import { cv } from '../data/cv.js';
+
 const {
-  title = 'Iván León Capote — Development Engineer',
-  description = 'Hoja de vida profesional de Iván León Capote. Development Engineer, Frontend Developer especializado en Vue.js, TypeScript y aplicaciones web escalables.',
+  title = 'Iván León Capote — Development Engineer | Vue.js & TypeScript',
+  description = 'Hoja de vida de Iván León Capote, Development Engineer en CariAI. Ingeniero Informático especializado en Vue.js, TypeScript, WebSockets y plataformas de IA conversacional.',
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const canonical = new URL(`${base}/`, Astro.site).toString();
+const ogImage = new URL(`${base}/og-image.png`, Astro.site).toString();
+
+const { personal, social, skills, experience, education } = cv;
+
+const knowsAbout = [
+  ...skills.frontend.map((s) => s.name),
+  ...skills.backend.map((s) => s.name),
+  ...skills.databases.map((s) => s.name),
+  ...skills.tools.map((s) => s.name),
+];
+
+const currentJob = experience.find((job) => job.current) ?? experience[0];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: personal.name,
+  jobTitle: personal.title,
+  description: description,
+  url: canonical,
+  image: ogImage,
+  email: `mailto:${personal.email}`,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Piendamó',
+    addressRegion: 'Cauca',
+    addressCountry: 'CO',
+  },
+  worksFor: currentJob
+    ? { '@type': 'Organization', name: currentJob.company }
+    : undefined,
+  alumniOf: education.map((edu) => ({
+    '@type': 'EducationalOrganization',
+    name: edu.institution,
+  })),
+  knowsAbout,
+  sameAs: social.map((s) => s.url),
+};
 ---
 
 <!doctype html>
@@ -18,29 +59,61 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <meta name="author" content="Iván León Capote" />
-    <meta name="robots" content="index, follow" />
+    <meta name="author" content={personal.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#080d1a" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonical} />
 
     <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content={`${personal.name} — CV`} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`Tarjeta de presentación de ${personal.name}`} />
     <meta property="og:locale" content="es_CO" />
+    <meta property="profile:first_name" content="Iván" />
+    <meta property="profile:last_name" content="León Capote" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={`Tarjeta de presentación de ${personal.name}`} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
 
-    <!-- Google Fonts: Inter -->
+    <!-- Sitemap -->
+    <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
+
+    <!-- Google Fonts: Space Grotesk (display), Inter (texto), JetBrains Mono (código) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
+    <!-- Datos estructurados: Person -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
     <title>{title}</title>
+
+    <!-- Mejora progresiva: las animaciones solo se activan si hay JS -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
   </head>
   <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
     <slot />
   </body>
 </html>

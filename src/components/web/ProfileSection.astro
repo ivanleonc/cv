@@ -10,12 +10,12 @@ const techCount = Object.values(skills).flat().length;
 const companies = [...new Set(experience.map(e => e.company))].length;
 ---
 
-<section class="section about-section" id="sobre-mi">
+<section class="section about-section" id="sobre-mi" aria-labelledby="sobre-mi-title">
   <div class="container about-inner">
 
     <div class="about-left" data-animate>
       <p class="section-label">Sobre mí</p>
-      <h2 class="section-title">Ingeniero orientado<br/>a resultados</h2>
+      <h2 class="section-title" id="sobre-mi-title">Ingeniero orientado<br/>a resultados</h2>
       <div class="divider"></div>
       <p class="about-text">
         Soy un Ingeniero Informático apasionado por la tecnología, el desarrollo web y la innovación.
@@ -28,10 +28,10 @@ const companies = [...new Set(experience.map(e => e.company))].length;
         a través de buenas prácticas y patrones de diseño.
       </p>
       <div class="about-tags">
-        <span class="about-tag">🔧 Código limpio</span>
-        <span class="about-tag">⚡ Alto rendimiento</span>
-        <span class="about-tag">🤝 Trabajo en equipo</span>
-        <span class="about-tag">🧠 Aprendizaje continuo</span>
+        <span class="about-tag"><span aria-hidden="true">🔧</span> Código limpio</span>
+        <span class="about-tag"><span aria-hidden="true">⚡</span> Alto rendimiento</span>
+        <span class="about-tag"><span aria-hidden="true">🤝</span> Trabajo en equipo</span>
+        <span class="about-tag"><span aria-hidden="true">🧠</span> Aprendizaje continuo</span>
       </div>
     </div>
 
@@ -175,8 +175,9 @@ const companies = [...new Set(experience.map(e => e.company))].length;
   }
 
   .stat-num {
+    font-family: var(--font-display);
     font-size: 1.75rem;
-    font-weight: 900;
+    font-weight: 700;
     color: var(--accent-light);
     line-height: 1;
   }

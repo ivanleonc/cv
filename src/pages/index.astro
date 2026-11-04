@@ -19,13 +19,15 @@ import '../styles/global.css';
   <FloatingDownload />
 
   <!-- ── NAVEGACIÓN FLOTANTE ─────────────────────────────── -->
-  <NavBar />
+  <header class="site-header">
+    <NavBar />
+  </header>
 
   <!-- ══════════════════════════════════════════════════════
        VERSIÓN WEB (innovadora, dark, scroll)
        Oculta al imprimir mediante global.css @media print
   ══════════════════════════════════════════════════════ -->
-  <main class="web-cv">
+  <main class="web-cv" id="contenido" tabindex="-1">
     <HeroSection />
     <ProfileSection />
     <SkillsSection />
@@ -34,6 +36,15 @@ import '../styles/global.css';
     <CertificationsSection />
     <ContactSection />
   </main>
+
+  <!-- ── FOOTER ──────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <p>
+      Desarrollado con <span class="heart" aria-hidden="true">♥</span>
+      <span class="visually-hidden">amor</span> por <strong>Ivan Leon</strong>
+      · <span>{new Date().getFullYear()}</span>
+    </p>
+  </footer>
 
   <!-- ══════════════════════════════════════════════════════
        VERSIÓN PDF (dos columnas, oculta en pantalla)
@@ -58,4 +69,35 @@ import '../styles/global.css';
   );
 
   elements.forEach((el) => observer.observe(el));
+
+  // Sugerir un nombre de archivo claro al guardar como PDF
+  const defaultTitle = document.title;
+  window.addEventListener('beforeprint', () => {
+    document.title = 'Ivan_Leon_Capote_CV';
+  });
+  window.addEventListener('afterprint', () => {
+    document.title = defaultTitle;
+  });
 </script>
+
+<style>
+  .site-footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-soft);
+    text-align: center;
+    padding: 1.5rem 1rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .heart {
+    color: #f43f5e;
+  }
+
+  @media print {
+    .site-footer,
+    .site-header {
+      display: none !important;
+    }
+  }
+</style>

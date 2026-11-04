@@ -5,11 +5,11 @@ import { cv } from '../../data/cv.js';
 const { education } = cv;
 ---
 
-<section class="section edu-section" id="educacion">
+<section class="section edu-section" id="educacion" aria-labelledby="educacion-title">
   <div class="container">
     <div class="section-header" data-animate>
       <p class="section-label">Formación</p>
-      <h2 class="section-title">Educación</h2>
+      <h2 class="section-title" id="educacion-title">Educación</h2>
       <p class="section-desc">Mi trayectoria académica en tecnología e informática.</p>
     </div>
 
@@ -20,7 +20,7 @@ const { education } = cv;
             <div class={`edu-status-badge ${edu.current ? 'badge-active' : 'badge-done'}`}>
               {edu.current ? (
                 <>
-                  <span class="badge-pulse"></span>
+                  <span class="badge-pulse" aria-hidden="true"></span>
                   En curso
                 </>
               ) : '✓ Completado'}
@@ -28,8 +28,8 @@ const { education } = cv;
             <span class="edu-period">{edu.period}</span>
           </div>
 
-          <div class="edu-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <div class="edu-icon" aria-hidden="true">
+            <svg focusable="false" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
               <path d="M6 12v5c3 3 9 3 12 0v-5"/>
             </svg>

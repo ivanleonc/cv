@@ -22,3 +22,7 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Capturas de auditoría (generadas localmente, no necesarias en el repo)
+scripts/audit-output/
+scripts/og-source.svg

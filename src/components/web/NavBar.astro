@@ -2,9 +2,9 @@
 // NavBar.astro — Barra de navegación flotante
 ---
 
-<nav class="navbar" id="navbar">
+<nav class="navbar" id="navbar" aria-label="Navegación principal">
   <div class="navbar-inner">
-    <span class="navbar-brand">
+    <span class="navbar-brand" aria-hidden="true">
       <span class="brand-accent">I</span>L
     </span>
     <ul class="navbar-links">
@@ -15,13 +15,13 @@
       <li><a href="#certificaciones">Certificaciones</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <button class="navbar-download btn btn-primary" onclick="window.print()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <button type="button" class="navbar-download btn btn-primary" onclick="window.print()">
+      <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
         <polyline points="7 10 12 15 17 10"/>
         <line x1="12" y1="15" x2="12" y2="3"/>
       </svg>
-      PDF
+      Descargar CV
     </button>
   </div>
 </nav>
@@ -35,7 +35,8 @@
     z-index: 100;
     padding: 0 1.5rem;
     transform: translateY(-100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background 0.35s ease;
+    visibility: hidden;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s, background 0.35s ease;
     background: rgba(8, 13, 26, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -44,6 +45,7 @@
 
   .navbar.visible {
     transform: translateY(0);
+    visibility: visible;
   }
 
   .navbar-inner {
@@ -56,8 +58,9 @@
   }
 
   .navbar-brand {
+    font-family: var(--font-display);
     font-size: 1.1rem;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--text-primary);
     flex-shrink: 0;
@@ -88,14 +91,21 @@
     background: var(--accent-glow-sm);
   }
 
-  .navbar-download {
-    padding: 0.45rem 1rem;
-    font-size: 0.8rem;
-    flex-shrink: 0;
+  .navbar-links a:focus-visible {
+    color: var(--text-primary);
+    background: var(--accent-glow-sm);
   }
 
-  @media (max-width: 768px) {
+  .navbar-download {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    min-height: 38px;
+  }
+
+  @media (max-width: 860px) {
     .navbar-links { display: none; }
+    .navbar-inner { justify-content: space-between; }
   }
 </style>
 

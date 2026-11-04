@@ -51,7 +51,7 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
       company: 'CariAI',
       role: 'Development Engineer',
       period: 'Jun 2023 – Presente',
-      duration: '3+ años',
+      duration: '4+ años',
       location: 'Popayán, Colombia',
       description:
         'Ingeniero de desarrollo especializado en la creación de aplicaciones web escalables y eficientes para plataformas de inteligencia artificial conversacional.',

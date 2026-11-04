@@ -3,17 +3,18 @@
 ---
 
 <button
+  type="button"
   class="fab-download"
   onclick="window.print()"
   aria-label="Descargar CV en PDF"
   title="Descargar CV en PDF"
 >
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
     <polyline points="7 10 12 15 17 10"/>
     <line x1="12" y1="15" x2="12" y2="3"/>
   </svg>
-  <span class="fab-label">Descargar CV</span>
+  <span class="fab-label" aria-hidden="true">Descargar CV</span>
 </button>
 
 <style>
@@ -26,7 +27,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.25rem;
-    background: var(--accent);
+    background: var(--accent-dark);
     color: #fff;
     border: none;
     border-radius: 999px;
@@ -40,7 +41,7 @@
   }
 
   .fab-download:hover {
-    background: var(--accent-dark);
+    background: #4338ca;
     transform: translateY(-3px);
     box-shadow: 0 8px 28px rgba(99, 102, 241, 0.55), 0 4px 12px rgba(0,0,0,0.4);
   }

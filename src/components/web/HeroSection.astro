@@ -2,12 +2,47 @@
 // HeroSection.astro — Sección hero principal
 import { cv } from '../../data/cv.js';
 
-const { personal, social } = cv;
+const { personal, social, skills, experience } = cv;
 const base = import.meta.env.BASE_URL;
+
+// Años desde el inicio en CariAI, calculados desde la experiencia real.
+const MONTHS = {
+  ene: 0, feb: 1, mar: 2, abr: 3, may: 4, jun: 5,
+  jul: 6, ago: 7, sep: 8, oct: 9, nov: 10, dic: 11,
+};
+
+function parseStartDate(period) {
+  const match = period.match(/([a-záéíóú]{3,})\.?\s+(\d{4})/i);
+  if (!match) return null;
+  const monthKey = match[1]
+    .slice(0, 3)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+  const month = MONTHS[monthKey];
+  if (month === undefined) return null;
+  return new Date(Number(match[2]), month, 1);
+}
+
+const startDates = experience
+  .map((job) => parseStartDate(job.period))
+  .filter((date) => date instanceof Date);
+
+const yearsAtCariAI = startDates.length
+  ? Math.max(1, Math.floor((Date.now() - Math.min(...startDates)) / 31_557_600_000))
+  : null;
+
+// Tecnologías únicas declaradas en cv.skills
+const techCount = new Set(
+  Object.values(skills).flat().map((skill) => skill.name),
+).size;
+
+const currentJob = experience.find((job) => job.current) ?? experience[0];
+const footerStack = currentJob.stack.slice(0, 3).join(' · ');
 ---
 
-<section class="hero" id="inicio">
-  <div class="hero-bg">
+<section class="hero" id="inicio" aria-labelledby="hero-name">
+  <div class="hero-bg" aria-hidden="true">
     <div class="gradient-mesh"></div>
     <div class="hero-grid-lines"></div>
     <div class="hero-orb hero-orb-1"></div>
@@ -18,11 +53,11 @@ const base = import.meta.env.BASE_URL;
     <!-- Columna izquierda: texto -->
     <div class="hero-left">
       <div class="hero-badge animate-fade-up">
-        <span class="hero-badge-dot"></span>
+        <span class="hero-badge-dot" aria-hidden="true"></span>
         Disponible para nuevas oportunidades
       </div>
 
-      <h1 class="hero-name animate-fade-up" style="animation-delay: 0.1s">
+      <h1 class="hero-name animate-fade-up" id="hero-name" style="animation-delay: 0.1s">
         <span class="hero-name-first">{personal.name.split(' ')[0]}</span>{' '}
         <span class="hero-name-last">{personal.name.split(' ').slice(1).join(' ')}</span>
       </h1>
@@ -33,7 +68,7 @@ const base = import.meta.env.BASE_URL;
       </div>
 
       <p class="hero-location animate-fade-up" style="animation-delay: 0.3s">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
           <circle cx="12" cy="10" r="3"/>
         </svg>
@@ -48,13 +83,13 @@ const base = import.meta.env.BASE_URL;
       <div class="hero-actions animate-fade-up" style="animation-delay: 0.4s">
         <a href="#experiencia" class="btn btn-primary">
           Ver experiencia
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"/>
             <polyline points="12 5 19 12 12 19"/>
           </svg>
         </a>
-        <button class="btn btn-outline" onclick="window.print()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="btn btn-outline" onclick="window.print()">
+          <svg aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
@@ -64,16 +99,22 @@ const base = import.meta.env.BASE_URL;
 
         <div class="hero-social">
           {social.map(s => (
-            <a href={s.url} target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label={s.network}>
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-icon-btn"
+              aria-label={`${s.network} de Iván León Capote (se abre en una pestaña nueva)`}
+            >
               {s.icon === 'linkedin' && (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
                   <rect x="2" y="9" width="4" height="12"/>
                   <circle cx="4" cy="4" r="2"/>
                 </svg>
               )}
               {s.icon === 'github' && (
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
                 </svg>
               )}
@@ -108,25 +149,25 @@ const base = import.meta.env.BASE_URL;
 {'}'}</code></pre>
         </div>
         <div class="code-card-footer">
-          <span class="status-dot"></span>
-          <span>TypeScript · 42 commits esta semana</span>
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>{footerStack}</span>
         </div>
       </div>
 
       <!-- Stats flotantes -->
       <div class="hero-stat stat-1">
-        <span class="stat-number">3+</span>
+        <span class="stat-number">{yearsAtCariAI}+</span>
         <span class="stat-label">años en CariAI</span>
       </div>
       <div class="hero-stat stat-2">
-        <span class="stat-number">9+</span>
+        <span class="stat-number">{techCount}</span>
         <span class="stat-label">tecnologías</span>
       </div>
     </div>
   </div>
 
   <!-- Scroll indicator -->
-  <div class="hero-scroll">
+  <div class="hero-scroll" aria-hidden="true">
     <span>Scroll</span>
     <div class="scroll-line"></div>
   </div>
@@ -223,10 +264,10 @@ const base = import.meta.env.BASE_URL;
   /* ── Nombre ───────────────────────────────────────────── */
   .hero-name {
     font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 900;
-    line-height: 1.1;
+    font-weight: 700;
+    line-height: 1.05;
     margin-bottom: 1rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   .hero-name-first {
@@ -413,8 +454,9 @@ const base = import.meta.env.BASE_URL;
 
   .stat-number {
     display: block;
+    font-family: var(--font-display);
     font-size: 1.4rem;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--accent-light);
     line-height: 1;
   }
@@ -427,7 +469,7 @@ const base = import.meta.env.BASE_URL;
     white-space: nowrap;
   }
 
-  .stat-1 { bottom: -16px; left: -20px; }
+  .stat-1 { bottom: -56px; left: -18px; }
   .stat-2 { top: -16px; right: -20px; }
 
   /* ── Scroll indicator ─────────────────────────────────── */
@@ -491,7 +533,8 @@ const base = import.meta.env.BASE_URL;
 </style>
 
 <script>
-  // Typewriter effect
+  // Typewriter effect (desactivado si el usuario prefiere movimiento reducido)
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const titles = [
     'Development Engineer',
     'Frontend Developer',
@@ -499,34 +542,38 @@ const base = import.meta.env.BASE_URL;
     'API & WebSockets Dev',
   ];
 
-  let titleIdx = 0;
-  let charIdx = 0;
-  let deleting = false;
   const el = document.getElementById('typewriter');
 
-  function type() {
-    if (!el) return;
-    const current = titles[titleIdx];
+  if (el && prefersReducedMotion) {
+    el.textContent = titles[0];
+  } else if (el) {
+    let titleIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
 
-    if (!deleting) {
-      el.textContent = current.substring(0, charIdx + 1);
-      charIdx++;
-      if (charIdx === current.length) {
-        deleting = true;
-        setTimeout(type, 1800);
-        return;
+    const type = () => {
+      const current = titles[titleIdx];
+
+      if (!deleting) {
+        el.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(type, 1800);
+          return;
+        }
+        setTimeout(type, 60);
+      } else {
+        el.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx === 0) {
+          deleting = false;
+          titleIdx = (titleIdx + 1) % titles.length;
+        }
+        setTimeout(type, 35);
       }
-      setTimeout(type, 60);
-    } else {
-      el.textContent = current.substring(0, charIdx - 1);
-      charIdx--;
-      if (charIdx === 0) {
-        deleting = false;
-        titleIdx = (titleIdx + 1) % titles.length;
-      }
-      setTimeout(type, 35);
-    }
+    };
+
+    setTimeout(type, 800);
   }
-
-  setTimeout(type, 800);
 </script>

@@ -10,6 +10,8 @@ Hoja de vida profesional construida con **Astro** y desplegada en **GitHub Pages
 
 - Diseño web dark moderno e innovador
 - Responsive (mobile, tablet, desktop)
+- Accesibilidad WCAG 2.2 nivel AA (skip link, foco visible, movimiento reducido, ARIA)
+- SEO técnico (sitemap, canonical, JSON-LD `Person`, Open Graph, robots.txt)
 - Descarga de PDF en formato A4 con diseño de dos columnas
 - Despliegue automático con GitHub Actions
 - Toda la información centralizada en un solo archivo
@@ -105,7 +107,41 @@ git push origin main
 - `Ctrl + P` (Windows/Linux) o `Cmd + P` (Mac)
 - Selecciona "Guardar como PDF"
 
-> 💡 **Tip:** Usa Chrome o Edge para el mejor resultado de impresión. Asegúrate de que "Gráficos de fondo" esté activado en las opciones de impresión.
+> 💡 **Tip:** Usa Chrome o Edge para el mejor resultado de impresión. Asegúrate de que "Gráficos de fondo" esté activado en las opciones de impresión y desactiva "Encabezados y pies de página" para un PDF limpio.
+
+---
+
+## ♿ Accesibilidad y SEO
+
+El proyecto sigue las guías **WCAG 2.2 AA** y las recomendaciones técnicas de SEO:
+
+- Enlace "Saltar al contenido" para navegación con teclado
+- Foco visible en todos los elementos interactivos
+- Soporte para `prefers-reduced-motion`
+- Landmarks semánticos (`header`, `nav`, `main`, `footer`) y jerarquía correcta de encabezados
+- Barras de habilidades con roles `progressbar` y valores ARIA
+- Iconos decorativos ocultos para lectores de pantalla
+- `sitemap-index.xml` generado automáticamente
+- `robots.txt` con referencia al sitemap
+- URL canónica y metadatos Open Graph / Twitter Cards
+- Datos estructurados JSON-LD de tipo `Person`
+- Imagen social `og-image.png` (1200×630)
+
+### Regenerar la imagen social
+
+Si cambias tu nombre, cargo o stack principal, regenera la imagen Open Graph:
+
+```bash
+npm run og
+```
+
+Esto sobrescribe `public/og-image.png` a partir de `scripts/generate-og.mjs`.
+
+---
+
+## 🧭 Página 404
+
+El proyecto incluye `src/pages/404.astro`. GitHub Pages la servirá automáticamente para rutas inexistentes dentro de `/cv/`.
 
 ---
 
