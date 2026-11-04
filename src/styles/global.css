@@ -328,6 +328,8 @@ h1, h2, h3, h4, h5 {
   /* Ocultar web y mostrar print */
   .web-cv        { display: none !important; }
   .print-cv      { display: flex !important; }
+  .navbar        { display: none !important; }
+  .fab-download  { display: none !important; }
 
   /* Reset para impresión */
   * {
