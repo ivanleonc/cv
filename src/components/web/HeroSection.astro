@@ -124,33 +124,40 @@ const footerStack = currentJob.stack.slice(0, 3).join(' · ');
       </div>
     </div>
 
-    <!-- Columna derecha: terminal code card -->
+    <!-- Columna derecha: foto de perfil + mini badge de código -->
     <div class="hero-right animate-fade-in" style="animation-delay: 0.5s">
-      <div class="code-card">
-        <div class="code-card-header">
-          <span class="code-dot red"></span>
-          <span class="code-dot yellow"></span>
-          <span class="code-dot green"></span>
-          <span class="code-card-title">ivan.config.ts</span>
+
+      <div class="hero-photo-wrap">
+        <!-- Orb de fondo -->
+        <div class="photo-orb" aria-hidden="true"></div>
+
+        <!-- Anillos decorativos concéntricos -->
+        <div class="photo-ring-1" aria-hidden="true"></div>
+        <div class="photo-ring-2" aria-hidden="true"></div>
+
+        <!-- Foto principal con borde gradiente -->
+        <div class="photo-frame">
+          <img
+            src={`${base}/profile.jpg`}
+            alt={personal.photoAlt}
+            class="hero-photo"
+            width="280"
+            height="280"
+            loading="eager"
+          />
         </div>
-        <div class="code-card-body">
-          <pre><code><span class="c-kw">const</span> <span class="c-var">ivan</span> <span class="c-op">=</span> {'{'}
-  <span class="c-key">name</span><span class="c-op">:</span>     <span class="c-str">"Iván León Capote"</span>,
-  <span class="c-key">role</span><span class="c-op">:</span>     <span class="c-str">"Development Engineer"</span>,
-  <span class="c-key">company</span><span class="c-op">:</span>  <span class="c-str">"CariAI"</span>,
-  <span class="c-key">stack</span><span class="c-op">:</span>    [
-    <span class="c-str">"Vue.js"</span>,
-    <span class="c-str">"TypeScript"</span>,
-    <span class="c-str">"WebSockets"</span>,
-    <span class="c-str">"PHP"</span>,
-  ],
-  <span class="c-key">status</span><span class="c-op">:</span>   <span class="c-str">"open_to_work"</span>,
-  <span class="c-key">passion</span><span class="c-op">:</span>  <span class="c-str">"clean_code"</span>,
-{'}'}</code></pre>
-        </div>
-        <div class="code-card-footer">
-          <span class="status-dot" aria-hidden="true"></span>
-          <span>{footerStack}</span>
+
+        <!-- Mini tarjeta de código flotante -->
+        <div class="code-mini" aria-hidden="true">
+          <div class="code-mini-header">
+            <span class="code-dot red"></span>
+            <span class="code-dot yellow"></span>
+            <span class="code-dot green"></span>
+            <span class="code-mini-title">ivan.ts</span>
+          </div>
+          <pre class="code-mini-body"><code><span class="c-key">role</span><span class="c-op">:</span>    <span class="c-str">"Dev Engineer"</span>
+<span class="c-key">stack</span><span class="c-op">:</span>   <span class="c-str">"Vue.js + TS"</span>
+<span class="c-key">status</span><span class="c-op">:</span>  <span class="c-str">"open_to_work"</span></code></pre>
         </div>
       </div>
 
@@ -357,87 +364,139 @@ const footerStack = currentJob.stack.slice(0, 3).join(' · ');
     transform: translateY(-2px);
   }
 
-  /* ── Code card (derecha) ──────────────────────────────── */
+  /* ── Foto de perfil (derecha) ────────────────────────────── */
   .hero-right {
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     animation: float 5s ease-in-out infinite;
   }
 
-  .code-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-soft);
-    border-radius: 16px;
-    overflow: hidden;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 102, 241, 0.1);
+  .hero-photo-wrap {
+    position: relative;
+    width: 300px;
+    height: 340px;
+    flex-shrink: 0;
   }
 
-  .code-card-header {
+  /* Orb de resplandor */
+  .photo-orb {
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(circle at 50% 45%, rgba(99,102,241,0.25) 0%, transparent 65%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Anillos concéntricos giratorios */
+  .photo-ring-1,
+  .photo-ring-2 {
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .photo-ring-1 {
+    width: 310px;
+    height: 310px;
+    border: 1px solid rgba(99,102,241,0.2);
+    animation: rotate-ring 25s linear infinite;
+  }
+
+  .photo-ring-2 {
+    width: 350px;
+    height: 350px;
+    border: 1px dashed rgba(99,102,241,0.08);
+    animation: rotate-ring 40s linear infinite reverse;
+  }
+
+  /* Marco con borde gradiente */
+  .photo-frame {
+    position: relative;
+    z-index: 1;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, #6366f1 0%, #818cf8 50%, #4f46e5 100%);
+    box-shadow:
+      0 20px 60px rgba(0,0,0,0.6),
+      0 0 0 8px rgba(99,102,241,0.1),
+      0 0 60px rgba(99,102,241,0.15);
+    margin: 0 auto;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  /* Mini badge de código flotante */
+  .code-mini {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    right: -16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,102,241,0.1);
+    min-width: 190px;
+  }
+
+  .code-mini-header {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.75rem 1rem;
-    background: rgba(0,0,0,0.3);
+    gap: 4px;
+    padding: 7px 10px;
+    background: rgba(0,0,0,0.25);
     border-bottom: 1px solid var(--border-soft);
   }
 
-  .code-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
+  .code-mini-title {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    margin-left: 4px;
   }
 
+  .code-mini-body {
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.65;
+    white-space: pre;
+    margin: 0;
+  }
+
+  .code-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
   .code-dot.red    { background: #ff5f57; }
   .code-dot.yellow { background: #febc2e; }
   .code-dot.green  { background: #28c840; }
 
-  .code-card-title {
-    margin-left: 0.5rem;
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-  }
-
-  .code-card-body {
-    padding: 1.25rem 1.5rem;
-    overflow-x: auto;
-  }
-
-  .code-card-body pre {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    line-height: 1.8;
-    white-space: pre;
-  }
-
-  .c-kw  { color: #c792ea; }
-  .c-var { color: #82aaff; }
-  .c-op  { color: #89ddff; }
   .c-key { color: #f07178; }
+  .c-op  { color: #89ddff; }
   .c-str { color: #c3e88d; }
 
-  .code-card-footer {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1rem;
-    background: rgba(0,0,0,0.2);
-    border-top: 1px solid var(--border-soft);
-    font-size: 0.72rem;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-  }
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #28c840;
-    flex-shrink: 0;
-    animation: pulse-glow 2s infinite;
+  @keyframes rotate-ring {
+    from { transform: translate(-50%, -55%) rotate(0deg); }
+    to   { transform: translate(-50%, -55%) rotate(360deg); }
   }
 
   /* ── Stats flotantes ──────────────────────────────────── */
@@ -520,30 +579,22 @@ const footerStack = currentJob.stack.slice(0, 3).join(' · ');
 
     .stat-1, .stat-2 { display: none; }
 
-    /* Ocultar scroll indicator: en móvil el código queda debajo del texto
-       y el indicador absoluto solapa la tarjeta */
+    /* Ocultar scroll indicator en móvil */
     .hero-scroll { display: none; }
+
+    /* Foto más compacta en móvil */
+    .hero-photo-wrap { width: 240px; height: 280px; }
+    .photo-frame { width: 220px; height: 220px; }
+    .photo-ring-1 { width: 240px; height: 240px; }
+    .photo-ring-2 { width: 270px; height: 270px; }
+    .code-mini { right: -8px; bottom: -4px; min-width: 170px; }
+    .code-mini-body { font-size: 0.65rem; padding: 8px 10px; }
   }
 
   @media (max-width: 480px) {
     .hero { padding: 6rem 1rem 3rem; }
     .hero-actions { gap: 0.5rem; }
     .hero-social { margin-left: 0; }
-
-    /* Code card más compacto en móvil */
-    .code-card-body {
-      padding: 0.875rem 1rem;
-    }
-
-    .code-card-body pre {
-      font-size: 0.74rem;
-      line-height: 1.65;
-    }
-
-    .code-card-footer {
-      padding: 0.5rem 0.875rem;
-      font-size: 0.68rem;
-    }
   }
 
   @media print {
