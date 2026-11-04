@@ -1,0 +1,206 @@
+---
+// CertificationsSection.astro
+import { cv } from '../../data/cv.js';
+
+const { certifications, awards } = cv;
+---
+
+<section class="section certs-section" id="certificaciones">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-label">Logros</p>
+      <h2 class="section-title">Certificaciones y premios</h2>
+      <p class="section-desc">Formación complementaria y reconocimientos obtenidos a lo largo de mi carrera.</p>
+    </div>
+
+    <!-- Reconocimientos destacados -->
+    {awards.length > 0 && (
+      <div class="awards-block" data-animate>
+        {awards.map(award => (
+          <div class="award-card">
+            <div class="award-icon">🏆</div>
+            <div>
+              <p class="award-year">{award.year}</p>
+              <h3 class="award-title">{award.title}</h3>
+              {award.description && <p class="award-desc">{award.description}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Certificaciones -->
+    <div class="certs-grid">
+      {certifications.map((cert, i) => (
+        <div class="cert-card card" data-animate style={`animation-delay: ${i * 0.1}s`}>
+          <div class="cert-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="6"/>
+              <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+            </svg>
+          </div>
+          <div class="cert-info">
+            <h3 class="cert-name">{cert.name}</h3>
+            <p class="cert-issuer">{cert.issuer}</p>
+            {cert.year && <p class="cert-year">{cert.year}</p>}
+            {cert.id && <p class="cert-id">ID: {cert.id}</p>}
+          </div>
+          {cert.url && (
+            <a href={cert.url} target="_blank" rel="noopener noreferrer" class="cert-link" aria-label="Ver certificado">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .certs-section {
+    background: var(--bg-primary);
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Award destacado ──────────────────────────────────── */
+  .awards-block {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .award-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(79, 70, 229, 0.04));
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .award-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-light));
+    border-radius: 3px 0 0 3px;
+  }
+
+  .award-icon {
+    font-size: 1.75rem;
+    flex-shrink: 0;
+  }
+
+  .award-year {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--accent-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .award-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+  }
+
+  .award-desc {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── Certificaciones grid ─────────────────────────────── */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .cert-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: var(--bg-card);
+    position: relative;
+  }
+
+  .cert-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--accent-glow-sm);
+    color: var(--accent-light);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .cert-info {
+    flex: 1;
+  }
+
+  .cert-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 0.3rem;
+  }
+
+  .cert-issuer {
+    font-size: 0.78rem;
+    color: var(--accent-light);
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .cert-year {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .cert-id {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 0.1rem;
+  }
+
+  .cert-link {
+    color: var(--text-muted);
+    padding: 0.25rem;
+    border-radius: 6px;
+    transition: var(--transition);
+  }
+
+  .cert-link:hover {
+    color: var(--accent-light);
+    background: var(--accent-glow-sm);
+  }
+
+  @media (max-width: 500px) {
+    .certs-grid { grid-template-columns: 1fr; }
+  }
+
+  @media print { .certs-section { display: none; } }
+</style>

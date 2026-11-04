@@ -1,0 +1,247 @@
+---
+// PrintCV.astro — Layout del PDF (estilo Eduardo Godinez: sidebar oscuro + main blanco)
+// Este componente SOLO se muestra al imprimir (display: none en pantalla)
+import { cv } from '../../data/cv.js';
+
+const { personal, social, profile, education, skills, experience, certifications, awards, languages, references } = cv;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const photoSrc = `${base}/profile.svg`;
+
+// Skills flat para el sidebar
+const allSkillsSidebar = [
+  ...skills.frontend.slice(0, 5),
+  ...skills.backend.slice(0, 3),
+  ...skills.tools.slice(0, 2),
+];
+---
+
+<div class="print-cv" aria-hidden="true">
+
+  <!-- ══════════════════════════════════════════════
+       COLUMNA IZQUIERDA — Sidebar oscuro
+  ══════════════════════════════════════════════ -->
+  <div class="print-sidebar">
+
+    <!-- Foto -->
+    <div class="print-photo-wrap">
+      <img
+        src={photoSrc}
+        alt={personal.photoAlt}
+        class="print-photo"
+        width="112"
+        height="112"
+      />
+    </div>
+
+    <!-- Nombre -->
+    <div class="print-name">
+      <h1>{personal.name}</h1>
+      <p>{personal.title}</p>
+      {personal.subtitle && <p style="font-size: 7pt; color: #818cf8; margin-top: 1mm;">{personal.subtitle}</p>}
+    </div>
+
+    <!-- Contacto -->
+    <div class="print-sidebar-section">
+      <h2 class="print-section-title">C O N T A C T O</h2>
+      <ul class="print-contact-list">
+        <li class="print-contact-item">
+          <svg class="print-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          {personal.location}
+        </li>
+        <li class="print-contact-item">
+          <svg class="print-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+          {personal.email}
+        </li>
+        {personal.emailAlt && (
+          <li class="print-contact-item">
+            <svg class="print-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+            {personal.emailAlt}
+          </li>
+        )}
+        {personal.phone && (
+          <li class="print-contact-item">
+            <svg class="print-contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42a2 2 0 0 1 1.95-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.78a16 16 0 0 0 6 6l.76-.76a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            {personal.phone}
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <!-- Redes sociales -->
+    <div class="print-sidebar-section">
+      <h2 class="print-section-title">S O C I A L</h2>
+      <ul class="print-social-list">
+        {social.map(s => (
+          <li class="print-social-item">
+            {s.icon === 'linkedin' && (
+              <svg class="print-social-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            )}
+            {s.icon === 'github' && (
+              <svg class="print-social-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            )}
+            @{s.handle}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Perfil -->
+    <div class="print-sidebar-section">
+      <h2 class="print-section-title">P E R F I L</h2>
+      <p class="print-profile-text">{profile.split('\n\n')[0]}</p>
+    </div>
+
+    <!-- Educación -->
+    <div class="print-sidebar-section">
+      <h2 class="print-section-title">E D U C A C I Ó N</h2>
+      <ul class="print-edu-list">
+        {education.map(edu => (
+          <li class="print-edu-item">
+            <div class="print-edu-dot"></div>
+            <div>
+              <p class="print-edu-degree">{edu.degree}</p>
+              {edu.field && <p class="print-edu-institution">{edu.field}</p>}
+              <p class="print-edu-institution">{edu.institution}</p>
+              <p class="print-edu-period">{edu.period}{edu.current ? ' · En curso' : ''}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Habilidades -->
+    <div class="print-sidebar-section">
+      <h2 class="print-section-title">H A B I L I D A D E S</h2>
+      <div class="print-skills-list">
+        {allSkillsSidebar.map(skill => (
+          <div class="print-skill-item">
+            <span class="print-skill-name">{skill.name}</span>
+            <div class="print-skill-bar-bg">
+              <div class="print-skill-bar" style={`width: ${skill.level}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       COLUMNA DERECHA — Contenido principal blanco
+  ══════════════════════════════════════════════ -->
+  <div class="print-main">
+
+    <!-- Experiencia -->
+    <div class="print-main-section">
+      <h2 class="print-main-section-title">E X P E R I E N C I A</h2>
+      <div class="print-exp-list">
+        {experience.map(job => (
+          <div class="print-exp-item">
+            <div class="print-exp-dot"></div>
+            <div class="print-exp-content">
+              <p class="print-exp-role">{job.role}</p>
+              <p class="print-exp-meta">{job.period} | {job.company}{job.location ? ` — ${job.location}` : ''}</p>
+              <p class="print-exp-desc">{job.description}</p>
+              <ul class="print-exp-bullets">
+                {job.responsibilities.slice(0, 4).map(r => (
+                  <li>{r}</li>
+                ))}
+              </ul>
+              <div class="print-exp-stack">
+                {job.stack.map(tech => (
+                  <span class="print-exp-tag">{tech}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Certificaciones -->
+    <div class="print-main-section">
+      <h2 class="print-main-section-title">C E R T I F I C A C I O N E S</h2>
+      <div class="print-cert-list">
+        {certifications.map(cert => (
+          <div class="print-cert-item">
+            <p class="print-cert-name">{cert.name}{cert.year ? ` — ${cert.year}` : ''}</p>
+            <p class="print-cert-issuer">Otorgado por {cert.issuer}{cert.id ? ` | id: ${cert.id}` : ''}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Reconocimientos -->
+    {awards.length > 0 && (
+      <div class="print-main-section">
+        <h2 class="print-main-section-title">R E C O N O C I M I E N T O S</h2>
+        {awards.map(award => (
+          <div class="print-award-item">
+            <span class="print-award-icon">🏆</span>
+            <div>
+              <p class="print-award-title">{award.title}</p>
+              {award.description && <p class="print-award-desc">{award.description}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    <!-- Idiomas -->
+    {languages.length > 0 && (
+      <div class="print-main-section">
+        <h2 class="print-main-section-title">I D I O M A S</h2>
+        <div class="print-lang-list">
+          {languages.map(lang => (
+            <div class="print-lang-item">
+              <div class="print-lang-dot"></div>
+              <span>{lang.name}</span>
+              {lang.level && <span style="color: #94a3b8;">— {lang.level}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Referencias -->
+    {references.length > 0 && (
+      <div class="print-main-section">
+        <h2 class="print-main-section-title">R E F E R E N C I A S</h2>
+        <div class="print-ref-grid">
+          {references.map(ref => (
+            <div class="print-ref-item">
+              <p class="print-ref-role">{ref.role}</p>
+              <p class="print-ref-name">{ref.name}</p>
+              <p class="print-ref-contact">{ref.company}</p>
+              {ref.contact && <p class="print-ref-contact">{ref.contact}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+  </div>
+</div>
+
+<style>
+  /* Pantalla: oculto */
+  .print-cv {
+    display: none;
+  }
+
+  /* Los estilos de impresión están en global.css (@media print) */
+</style>

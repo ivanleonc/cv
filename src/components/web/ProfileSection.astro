@@ -1,0 +1,257 @@
+---
+// ProfileSection.astro — Sección breve "Sobre mí" / extracto
+import { cv } from '../../data/cv.js';
+
+const { personal, skills, experience } = cv;
+
+// Stats calculados
+const yearsExp = new Date().getFullYear() - 2022;
+const techCount = Object.values(skills).flat().length;
+const companies = [...new Set(experience.map(e => e.company))].length;
+---
+
+<section class="section about-section" id="sobre-mi">
+  <div class="container about-inner">
+
+    <div class="about-left" data-animate>
+      <p class="section-label">Sobre mí</p>
+      <h2 class="section-title">Ingeniero orientado<br/>a resultados</h2>
+      <div class="divider"></div>
+      <p class="about-text">
+        Soy un Ingeniero Informático apasionado por la tecnología, el desarrollo web y la innovación.
+        Me especializo en la construcción de aplicaciones web <strong>escalables y eficientes</strong>,
+        con experiencia en el diseño de interfaces intuitivas y la integración de tecnologías modernas.
+      </p>
+      <p class="about-text">
+        Trabajo con <strong>APIs REST y WebSockets</strong>, asegurando comunicación fluida en tiempo real.
+        Me motiva la optimización y el código limpio, buscando siempre mejorar la eficiencia del software
+        a través de buenas prácticas y patrones de diseño.
+      </p>
+      <div class="about-tags">
+        <span class="about-tag">🔧 Código limpio</span>
+        <span class="about-tag">⚡ Alto rendimiento</span>
+        <span class="about-tag">🤝 Trabajo en equipo</span>
+        <span class="about-tag">🧠 Aprendizaje continuo</span>
+      </div>
+    </div>
+
+    <div class="about-right" data-animate style="animation-delay: 0.2s">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-num">{yearsExp}+</span>
+          <span class="stat-label">Años de experiencia</span>
+          <span class="stat-sub">en desarrollo web</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">{techCount}</span>
+          <span class="stat-label">Tecnologías</span>
+          <span class="stat-sub">en stack activo</span>
+        </div>
+        <div class="stat-card stat-highlight">
+          <span class="stat-num">3+</span>
+          <span class="stat-label">Años en CariAI</span>
+          <span class="stat-sub">rol actual</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Títulos</span>
+          <span class="stat-sub">Colegio Mayor del Cauca</span>
+        </div>
+      </div>
+
+      <div class="about-focus-card">
+        <p class="focus-label">Enfoque actual</p>
+        <div class="focus-items">
+          <div class="focus-item">
+            <span class="focus-icon">🤖</span>
+            <div>
+              <p class="focus-title">IA Conversacional</p>
+              <p class="focus-desc">Plataformas con CariAI</p>
+            </div>
+          </div>
+          <div class="focus-item">
+            <span class="focus-icon">🧩</span>
+            <div>
+              <p class="focus-title">Vue.js + TypeScript</p>
+              <p class="focus-desc">Frontend de alto rendimiento</p>
+            </div>
+          </div>
+          <div class="focus-item">
+            <span class="focus-icon">🔌</span>
+            <div>
+              <p class="focus-title">WebSockets & APIs REST</p>
+              <p class="focus-desc">Comunicación en tiempo real</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .about-section {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* ── Izquierda ────────────────────────────────────────── */
+  .about-text {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .about-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .about-tag {
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-soft);
+    transition: var(--transition);
+  }
+
+  .about-tag:hover {
+    border-color: var(--border);
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+  }
+
+  /* ── Derecha ──────────────────────────────────────────── */
+  .about-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--card-radius);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    transition: var(--transition);
+  }
+
+  .stat-card:hover {
+    border-color: var(--border);
+    transform: translateY(-2px);
+  }
+
+  .stat-highlight {
+    border-color: rgba(99, 102, 241, 0.3);
+    background: rgba(99, 102, 241, 0.05);
+  }
+
+  .stat-num {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: var(--accent-light);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .stat-sub {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  /* ── Focus card ───────────────────────────────────────── */
+  .about-focus-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--card-radius);
+    padding: 1.25rem;
+  }
+
+  .focus-label {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: var(--accent-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .focus-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .focus-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .focus-icon {
+    font-size: 1.1rem;
+    width: 32px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .focus-title {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .focus-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* ── Responsive ───────────────────────────────────────── */
+  @media (max-width: 800px) {
+    .about-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media print { .about-section { display: none; } }
+</style>

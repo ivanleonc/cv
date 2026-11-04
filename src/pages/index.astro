@@ -1,0 +1,61 @@
+---
+// src/pages/index.astro — Página principal del CV
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/web/NavBar.astro';
+import HeroSection from '../components/web/HeroSection.astro';
+import SkillsSection from '../components/web/SkillsSection.astro';
+import ExperienceSection from '../components/web/ExperienceSection.astro';
+import EducationSection from '../components/web/EducationSection.astro';
+import CertificationsSection from '../components/web/CertificationsSection.astro';
+import ContactSection from '../components/web/ContactSection.astro';
+import ProfileSection from '../components/web/ProfileSection.astro';
+import FloatingDownload from '../components/web/FloatingDownload.astro';
+import PrintCV from '../components/print/PrintCV.astro';
+import '../styles/global.css';
+---
+
+<Layout>
+  <!-- ── BOTÓN FLOTANTE ───────────────────────────────────── -->
+  <FloatingDownload />
+
+  <!-- ── NAVEGACIÓN FLOTANTE ─────────────────────────────── -->
+  <NavBar />
+
+  <!-- ══════════════════════════════════════════════════════
+       VERSIÓN WEB (innovadora, dark, scroll)
+       Oculta al imprimir mediante global.css @media print
+  ══════════════════════════════════════════════════════ -->
+  <main class="web-cv">
+    <HeroSection />
+    <ProfileSection />
+    <SkillsSection />
+    <ExperienceSection />
+    <EducationSection />
+    <CertificationsSection />
+    <ContactSection />
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════
+       VERSIÓN PDF (dos columnas, oculta en pantalla)
+       Solo visible al imprimir mediante @media print
+  ══════════════════════════════════════════════════════ -->
+  <PrintCV />
+</Layout>
+
+<script>
+  // Intersection Observer para animaciones de entrada
+  const elements = document.querySelectorAll('[data-animate]');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+  );
+
+  elements.forEach((el) => observer.observe(el));
+</script>

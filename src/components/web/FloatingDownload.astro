@@ -1,0 +1,65 @@
+---
+// FloatingDownload.astro — Botón flotante siempre visible
+---
+
+<button
+  class="fab-download"
+  onclick="window.print()"
+  aria-label="Descargar CV en PDF"
+  title="Descargar CV en PDF"
+>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </svg>
+  <span class="fab-label">Descargar CV</span>
+</button>
+
+<style>
+  .fab-download {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45), 0 2px 8px rgba(0,0,0,0.3);
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+
+  .fab-download:hover {
+    background: var(--accent-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.55), 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .fab-download:active {
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 480px) {
+    .fab-label { display: none; }
+    .fab-download {
+      padding: 0.9rem;
+      border-radius: 50%;
+      bottom: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+
+  @media print {
+    .fab-download { display: none !important; }
+  }
+</style>
