@@ -1,0 +1,175 @@
+---
+// ThemeToggle.astro — Selector de tema: claro - oscuro - sistema
+---
+
+<div class="theme-toggle" role="group" aria-label="Tema de la interfaz">
+  <button
+    type="button"
+    class="theme-btn"
+    data-theme-pref="light"
+    aria-pressed="false"
+    aria-label="Tema claro"
+    title="Tema claro"
+  >
+    <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+    </svg>
+  </button>
+
+  <button
+    type="button"
+    class="theme-btn"
+    data-theme-pref="dark"
+    aria-pressed="false"
+    aria-label="Tema oscuro"
+    title="Tema oscuro"
+  >
+    <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <button
+    type="button"
+    class="theme-btn"
+    data-theme-pref="system"
+    aria-pressed="true"
+    aria-label="Tema del sistema"
+    title="Tema del sistema"
+  >
+    <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+      <line x1="8" y1="21" x2="16" y2="21"/>
+      <line x1="12" y1="17" x2="12" y2="21"/>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--border-soft);
+    border-radius: 999px;
+    background: var(--bg-card);
+    flex-shrink: 0;
+  }
+
+  .theme-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    color: var(--text-muted);
+    transition: var(--transition);
+  }
+
+  .theme-btn:hover {
+    color: var(--text-primary);
+    background: var(--accent-glow-sm);
+  }
+
+  .theme-btn[aria-pressed='true'] {
+    background: var(--accent-dark);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+  }
+
+  .theme-btn:focus-visible {
+    outline: 2px solid var(--accent-light);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 400px) {
+    .theme-btn {
+      width: 27px;
+      height: 27px;
+    }
+  }
+
+  @media print {
+    .theme-toggle { display: none !important; }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'theme';
+  const html = document.documentElement;
+  const body = document.body;
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  const buttons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-pref]')
+  );
+  const meta = document.querySelector('meta[name="theme-color"]');
+
+  const getPref = (): string => {
+    try {
+      return localStorage.getItem(STORAGE_KEY) ?? 'system';
+    } catch {
+      return 'system';
+    }
+  };
+
+  const resolve = (pref: string): 'dark' | 'light' => {
+    if (pref === 'light' || pref === 'dark') return pref;
+    return mq.matches ? 'dark' : 'light';
+  };
+
+  const apply = (pref: string, persist = false) => {
+    const resolved = resolve(pref);
+
+    // Toggle classes en lugar de data-attributes para evitar violaciones de axe
+    if (resolved === 'dark') {
+      html.classList.remove('theme-light');
+      body.classList.add('theme-dark');
+      body.classList.remove('theme-light');
+    } else {
+      html.classList.remove('theme-dark');
+      body.classList.add('theme-light');
+      body.classList.remove('theme-dark');
+    }
+
+    buttons.forEach((button) => {
+      button.setAttribute(
+        'aria-pressed',
+        String(button.dataset.themePref === pref)
+      );
+    });
+
+    if (meta) {
+      meta.setAttribute('content', resolved === 'dark' ? '#080d1a' : '#f8fafc');
+    }
+
+    if (persist) {
+      try {
+        localStorage.setItem(STORAGE_KEY, pref);
+      } catch {
+        /* localStorage no disponible: mantenemos el tema en memoria */
+      }
+    }
+  };
+
+  // Sincroniza el estado de los botones con el tema aplicado en <head>
+  apply(getPref());
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      apply(button.dataset.themePref ?? 'system', true);
+    });
+  });
+
+  // Si el usuario elige "sistema", sigue los cambios del SO en vivo
+  mq.addEventListener('change', () => {
+    if (getPref() === 'system') apply('system');
+  });
+
+  // Sincroniza entre pestañas abiertas
+  window.addEventListener('storage', (event) => {
+    if (event.key === STORAGE_KEY) apply(event.newValue ?? 'system');
+  });
+</script>
