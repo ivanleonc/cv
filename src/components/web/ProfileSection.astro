@@ -3,11 +3,30 @@
 import { cv } from '../../data/cv.js';
 
 const { personal, skills, experience } = cv;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Stats calculados
 const yearsExp = new Date().getFullYear() - 2022;
 const techCount = Object.values(skills).flat().length;
 const companies = [...new Set(experience.map(e => e.company))].length;
+
+// Años en CariAI desde el inicio más temprano
+const MONTHS: Record<string, number> = {
+  ene:0, feb:1, mar:2, abr:3, may:4, jun:5,
+  jul:6, ago:7, sep:8, oct:9, nov:10, dic:11,
+};
+function parseStart(period: string): Date | null {
+  const m = period.match(/([a-záéíóú]{3,})\.?\s+(\d{4})/i);
+  if (!m) return null;
+  const key = m[1].slice(0, 3).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const month = MONTHS[key];
+  if (month === undefined) return null;
+  return new Date(Number(m[2]), month, 1);
+}
+const starts = experience.map(j => parseStart(j.period)).filter((d): d is Date => d instanceof Date);
+const yearsAtCariAI = starts.length
+  ? Math.max(1, Math.floor((Date.now() - Math.min(...starts.map(d => d.getTime()))) / 31_557_600_000))
+  : yearsExp;
 ---
 
 <section class="section about-section" id="sobre-mi" aria-labelledby="sobre-mi-title">
@@ -36,6 +55,28 @@ const companies = [...new Set(experience.map(e => e.company))].length;
     </div>
 
     <div class="about-right" data-animate style="animation-delay: 0.2s">
+
+      <!-- Avatar con foto real -->
+      <div class="about-avatar-row">
+        <div class="about-avatar">
+          <img
+            src={`${base}/profile.jpg`}
+            alt={personal.photoAlt}
+            width="88"
+            height="88"
+            class="about-avatar-img"
+            loading="lazy"
+          />
+        </div>
+        <div class="about-avatar-info">
+          <p class="avatar-name">{personal.name}</p>
+          <span class="avatar-badge">
+            <span class="badge-dot" aria-hidden="true"></span>
+            Disponible
+          </span>
+        </div>
+      </div>
+
       <div class="stats-grid">
         <div class="stat-card">
           <span class="stat-num">{yearsExp}+</span>
@@ -48,7 +89,7 @@ const companies = [...new Set(experience.map(e => e.company))].length;
           <span class="stat-sub">en stack activo</span>
         </div>
         <div class="stat-card stat-highlight">
-          <span class="stat-num">3+</span>
+          <span class="stat-num">{yearsAtCariAI}+</span>
           <span class="stat-label">Años en CariAI</span>
           <span class="stat-sub">rol actual</span>
         </div>
@@ -145,6 +186,66 @@ const companies = [...new Set(experience.map(e => e.company))].length;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+  }
+
+  /* ── Avatar ───────────────────────────────────────────── */
+  .about-avatar-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .about-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  }
+
+  .about-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  .about-avatar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .avatar-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .avatar-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.08);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #34d399;
+    width: fit-content;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulse-glow 2s infinite;
   }
 
   .stats-grid {

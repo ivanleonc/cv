@@ -2,6 +2,7 @@
 // Genera public/og-image.png (1200x630) para Open Graph / Twitter Cards.
 // Uso: npm run og
 import { readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import sharp from 'sharp';
 
 const name = 'Iván León Capote';
@@ -10,6 +11,38 @@ const stack = ['Vue.js', 'TypeScript', 'JavaScript', 'PHP', 'WebSockets', 'Pinia
 const location = 'Piendamó, Cauca · Colombia';
 const handles = ['github.com/ivanleonc', 'linkedin.com/in/ivanleoncapote'];
 
+// ── Foto de perfil circular ─────────────────────────────────────────────────
+const photoPath = 'public/profile.jpg';
+const circleSize = 280; // diámetro del círculo en la OG image
+let photoBase64 = null;
+
+if (existsSync(photoPath)) {
+  // 1. Recortar al tamaño del círculo centrado en la cara (parte superior)
+  const raw = await sharp(photoPath)
+    .resize(circleSize, circleSize, { fit: 'cover', position: 'top' })
+    .png()
+    .toBuffer();
+
+  // 2. Máscara circular
+  const mask = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${circleSize}" height="${circleSize}">
+      <circle cx="${circleSize / 2}" cy="${circleSize / 2}" r="${circleSize / 2}" fill="white"/>
+    </svg>`,
+  );
+
+  // 3. Aplicar máscara → PNG circular transparente
+  const circlePhoto = await sharp(raw)
+    .composite([{ input: mask, blend: 'dest-in' }])
+    .png()
+    .toBuffer();
+
+  photoBase64 = `data:image/png;base64,${circlePhoto.toString('base64')}`;
+  console.log('✓ Foto de perfil procesada como círculo');
+} else {
+  console.warn('⚠ public/profile.jpg no encontrado — se usará el monograma ILC');
+}
+
+// ── Pills del stack ─────────────────────────────────────────────────────────
 const pills = stack
   .map((tech, i) => {
     const x = 80 + i * 165;
@@ -21,8 +54,13 @@ const pills = stack
   })
   .join('');
 
+// ── SVG del fondo ───────────────────────────────────────────────────────────
+const cx = 1020;  // centro del círculo de la foto en X
+const cy = 310;   // centro en Y
+
 const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
     <radialGradient id="orb1" cx="0.15" cy="0.2" r="0.55">
       <stop offset="0%" stop-color="#6366f1" stop-opacity="0.28"/>
@@ -36,22 +74,24 @@ const svg = `
       <stop offset="0%" stop-color="#818cf8"/>
       <stop offset="100%" stop-color="#4f46e5"/>
     </linearGradient>
+    ${photoBase64 ? `<clipPath id="circle"><circle cx="${cx}" cy="${cy}" r="${circleSize / 2}"/></clipPath>` : ''}
   </defs>
 
+  <!-- Fondo -->
   <rect width="1200" height="630" fill="#080d1a"/>
   <rect width="1200" height="630" fill="url(#orb1)"/>
   <rect width="1200" height="630" fill="url(#orb2)"/>
 
   <!-- Retícula sutil -->
-  <g stroke="#6366f1" stroke-opacity="0.06" stroke-width="1">
+  <g stroke="#6366f1" stroke-opacity="0.05" stroke-width="1">
     ${Array.from({ length: 19 }, (_, i) => `<line x1="${i * 67}" y1="0" x2="${i * 67}" y2="630"/>`).join('')}
     ${Array.from({ length: 10 }, (_, i) => `<line x1="0" y1="${i * 67}" x2="1200" y2="${i * 67}"/>`).join('')}
   </g>
 
-  <!-- Barra de acento -->
+  <!-- Barra de acento izquierda -->
   <rect x="0" y="0" width="8" height="630" fill="url(#bar)"/>
 
-  <!-- Etiqueta superior -->
+  <!-- Etiqueta disponible -->
   <circle cx="86" cy="122" r="6" fill="#34d399"/>
   <text x="104" y="129" font-family="Arial, Helvetica, sans-serif" font-size="19"
     fill="#94a3b8">Disponible para nuevas oportunidades</text>
@@ -70,29 +110,37 @@ const svg = `
   <text x="80" y="416" font-family="Arial, Helvetica, sans-serif" font-size="20"
     fill="#64748b">${location}</text>
 
-  <!-- Stack -->
+  <!-- Stack pills -->
   ${pills}
 
-  <!-- Monograma -->
-  <circle cx="1000" cy="315" r="132" fill="rgba(99,102,241,0.1)" stroke="rgba(129,140,248,0.35)" stroke-width="2"/>
-  <text x="1000" y="360" font-family="Arial Black, Arial, Helvetica, sans-serif"
-    font-size="92" font-weight="900" fill="#a5b4fc" text-anchor="middle" letter-spacing="-4">ILC</text>
+  <!-- Foto circular o monograma ILC de reserva -->
+  ${photoBase64
+    ? `<!-- Aro exterior -->
+       <circle cx="${cx}" cy="${cy}" r="${circleSize / 2 + 3}" fill="none" stroke="rgba(129,140,248,0.4)" stroke-width="2"/>
+       <!-- Foto -->
+       <image href="${photoBase64}" x="${cx - circleSize / 2}" y="${cy - circleSize / 2}"
+         width="${circleSize}" height="${circleSize}" clip-path="url(#circle)"/>`
+    : `<circle cx="${cx}" cy="${cy}" r="${circleSize / 2}" fill="rgba(99,102,241,0.1)"
+         stroke="rgba(129,140,248,0.35)" stroke-width="2"/>
+       <text x="${cx}" y="${cy + 30}" font-family="Arial Black, Arial, Helvetica, sans-serif"
+         font-size="92" font-weight="900" fill="#a5b4fc" text-anchor="middle" letter-spacing="-4">ILC</text>`
+  }
 
-  <!-- Handles -->
+  <!-- Handles sociales -->
   <text x="80" y="566" font-family="Arial, Helvetica, sans-serif" font-size="18"
     fill="#94a3b8">${handles[0]}</text>
   <text x="80" y="596" font-family="Arial, Helvetica, sans-serif" font-size="18"
     fill="#94a3b8">${handles[1]}</text>
 
-  <!-- Acento inferior -->
+  <!-- Barra acento inferior -->
   <rect x="0" y="622" width="1200" height="8" fill="url(#bar)"/>
 </svg>`;
 
+// ── Exportar ────────────────────────────────────────────────────────────────
 try {
   await writeFile('scripts/og-source.svg', svg, 'utf8');
   await sharp(Buffer.from(svg)).png({ quality: 90 }).toFile('public/og-image.png');
   console.log('✓ public/og-image.png generada (1200x630)');
-  await readFile('public/og-image.png');
 } catch (error) {
   console.error('No se pudo generar la imagen OG:', error);
   process.exitCode = 1;
