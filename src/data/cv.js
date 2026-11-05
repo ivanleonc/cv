@@ -168,10 +168,10 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
     },
     {
       name: '¿Cómo funciona la tecnología? Computadoras y Smartphones',
-      issuer: 'Coursera / Universidad de Michigan',
-      year: '',
-      id: '',
-      url: '',
+      issuer: 'EDteam',
+      year: '2022',
+      id: '46862',
+      url: 'https://ed.team/u/ivanleonc/curso/tecnologia-computadoras',
     },
     // TODO: Agrega más certificaciones aquí
   ],
