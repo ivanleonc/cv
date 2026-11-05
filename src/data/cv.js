@@ -154,17 +154,17 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
   certifications: [
     {
       name: 'Scrum Master Certified',
-      issuer: 'SCRUMstudy',
-      year: '', // TODO: Agrega el año si lo recuerdas
-      id: '',   // TODO: Agrega el ID del certificado si lo tienes
-      url: '',  // TODO: Agrega el link de verificación si existe
+      issuer: 'ITCertificate',
+      year: '2022', // TODO: Agrega el año si lo recuerdas
+      id: '9tclPvnEWb',   // TODO: Agrega el ID del certificado si lo tienes
+      url: 'https://itcertificate.us/campus/mod/customcert/verify_certificate.php?contextid=10168&code=9tclPvnEWb&qrcode=1',  // TODO: Agrega el link de verificación si existe
     },
     {
       name: 'Scrum Foundations Certified',
-      issuer: 'SCRUMstudy',
-      year: '',
-      id: '',
-      url: '',
+      issuer: 'ITCertificate',
+      year: '2022',
+      id: 'tXIk7yhu7B',
+      url: 'https://itcertificate.us/campus/mod/customcert/verify_certificate.php?contextid=10169&code=tXIk7yhu7B&qrcode=1',
     },
     {
       name: '¿Cómo funciona la tecnología? Computadoras y Smartphones',
