@@ -913,3 +913,20 @@ main[id] {
     page-break-inside: avoid;
   }
 }
+
+/* ── Elementos con blur (hero orbs, navbar) ──────────────────── */
+.hero-orb {
+  filter: blur(80px);
+  pointer-events: none;
+  border-radius: 50%;
+  position: absolute;
+}
+.photo-orb {
+  filter: blur(50px);
+  pointer-events: none;
+  position: absolute;
+}
+.navbar {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
