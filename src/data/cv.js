@@ -90,10 +90,18 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
   education: [
     {
       institution: 'Institución Universitaria Colegio Mayor del Cauca',
-      degree: 'Ingeniería Informática',
-      period: '2021 – Jul 2026',
+      degree: 'Especialización en Administración de la Información y Bases de Datos',
+      period: '2026 - Enero 2027',
       status: 'En curso',
       current: true,
+    },
+    {
+      institution: 'Institución Universitaria Colegio Mayor del Cauca',
+      degree: 'Ingeniería Informática',
+      field: 'Ingeniería de Software y Desarrollo de Aplicaciones Web',
+      period: '2021 – Jul 2026',
+      status: 'Completado',
+      current: false,
     },
     {
       institution: 'Institución Universitaria Colegio Mayor del Cauca',
