@@ -99,18 +99,17 @@ const allSkillsSidebar = [
       </ul>
     </div>
 
-    <!-- Educación -->
+    <!-- Certificaciones (Usa las clases de educación para heredar colores oscuros y márgenes) -->
     <div class="print-sidebar-section">
-      <h2 class="print-section-title">E D U C A C I Ó N</h2>
+      <h2 class="print-section-title">C E R T I F I C A C I O N E S</h2>
       <ul class="print-edu-list">
-        {education.map(edu => (
+        {certifications.map(cert => (
           <li class="print-edu-item">
             <div class="print-edu-dot"></div>
             <div>
-              <p class="print-edu-degree">{edu.degree}</p>
-              {edu.field && <p class="print-edu-institution">{edu.field}</p>}
-              <p class="print-edu-institution">{edu.institution}</p>
-              <p class="print-edu-period">{edu.period}{edu.current ? ' · En curso' : ''}</p>
+              <p class="print-edu-degree">{cert.name}</p>
+              <p class="print-edu-institution">{cert.issuer}{cert.id ? ` | ID: ${cert.id}` : ''}</p>
+              <p class="print-edu-period">{cert.year}</p>
             </div>
           </li>
         ))}
@@ -172,14 +171,18 @@ const allSkillsSidebar = [
       </div>
     </div>
 
-    <!-- Certificaciones -->
+    <!-- Educación (Usa las clases de experiencia para estructurarse limpio en el fondo blanco) -->
     <div class="print-main-section">
-      <h2 class="print-main-section-title">C E R T I F I C A C I O N E S</h2>
-      <div class="print-cert-list">
-        {certifications.map(cert => (
-          <div class="print-cert-item">
-            <p class="print-cert-name">{cert.name}{cert.year ? ` — ${cert.year}` : ''}</p>
-            <p class="print-cert-issuer">Otorgado por {cert.issuer}{cert.id ? ` | id: ${cert.id}` : ''}</p>
+      <h2 class="print-main-section-title">E D U C A C I Ó N</h2>
+      <div class="print-exp-list">
+        {education.map(edu => (
+          <div class="print-exp-item">
+            <div class="print-exp-dot"></div>
+            <div class="print-exp-content">
+              <p class="print-exp-role">{edu.degree}</p>
+              <p class="print-exp-meta">{edu.period}{edu.current ? ' · En curso' : ''} | {edu.institution}</p>
+              {edu.field && <p class="print-exp-desc">{edu.field}</p>}
+            </div>
           </div>
         ))}
       </div>
