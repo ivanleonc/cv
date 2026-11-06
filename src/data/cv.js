@@ -87,6 +87,92 @@ contenedores con Docker y entornos Linux. Me motiva el código limpio, la automa
     },
   ],
 
+  // ── PROYECTOS / PORTAFOLIO (solo web) ─────────────────────
+  projects: [
+    {
+      id: 'consola-agentes',
+      name: 'Consola de Agentes',
+      context: 'CariAI',
+      type: 'Plataforma de IA conversacional',
+      period: '2024 – Presente',
+      status: 'Producto de CariAI',
+      statusTone: 'product',
+      summary:
+        'Consola para crear, configurar y operar agentes de IA conversacional, con una interfaz en Vue.js, comunicación en tiempo real y servicios backend integrados.',
+      highlights: [
+        'Creación y configuración de agentes conversacionales.',
+        'Comunicación en tiempo real mediante WebSockets.',
+        'Gestión de estado con Pinia y componentes reutilizables.',
+        'Integración con API REST y servicios backend en PHP.',
+      ],
+      stack: [
+        'Vue.js',
+        'TypeScript',
+        'JavaScript',
+        'Pinia',
+        'WebSockets',
+        'API REST',
+        'PHP',
+        'AWS',
+        'Docker',
+      ],
+      image: '/cv/projects/consola-agentes.webp',
+      imageAlt:
+        'Interfaz de la Consola de Agentes con una conversación de WhatsApp y el panel de detalles del agente',
+      imageWidth: 1600,
+      imageHeight: 761,
+      links: [
+        // TODO: Agrega la URL pública o demo de la Consola de Agentes cuando esté disponible.
+        // { label: 'Demo', url: 'https://...', icon: 'docs' },
+      ],
+      note: 'Producto interno de CariAI',
+    },
+    {
+      id: 'kaleo',
+      name: 'Kaleo',
+      context: 'Proyecto personal',
+      type: 'SaaS multi-tenant',
+      period: 'May 2026 – Presente',
+      status: 'En desarrollo',
+      statusTone: 'wip',
+      summary:
+        'SaaS multi-tenant para gestionar empresas, sedes, miembros, roles y permisos, con auditoría total y un módulo de analítica a partir de facturación en Excel.',
+      highlights: [
+        'Multi-tenant: empresas, sedes, miembros y contexto por empresa.',
+        'RBAC con roles Owner/Admin/Viewer y 28 permisos, revalidado en backend.',
+        'Auditoría total con retención de 365 días y exportación CSV.',
+        'Analítica energética: consumo, pérdidas por zona y clientes por segmento.',
+      ],
+      stack: [
+        'Vue 3',
+        'TypeScript',
+        'Vite',
+        'Pinia',
+        'Vue Router',
+        'ECharts',
+        'NestJS',
+        'TypeORM',
+        'PostgreSQL',
+        'Supabase',
+        'JWT',
+        'Cloudflare Pages',
+        'Render',
+        'Sentry',
+      ],
+      image: '/cv/projects/kaleo.webp',
+      imageAlt:
+        'Panel de analítica de Kaleo con gráficos de consumo, pérdidas por zona y clientes por segmento',
+      imageWidth: 1600,
+      imageHeight: 721,
+      links: [
+        { label: 'Documentación', url: 'https://kaleo-docs.pages.dev', icon: 'docs' },
+        { label: 'GitHub', url: 'https://github.com/ivanleonc/saas-app', icon: 'github' },
+        // TODO: Agrega la URL de la demo pública de Kaleo cuando esté disponible.
+        // { label: 'Demo', url: 'https://...', icon: 'docs' },
+      ],
+    },
+  ],
+
   // ── FORMACIÓN ACADÉMICA ───────────────────────────────────
   education: [
     {

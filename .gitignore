@@ -26,3 +26,6 @@ pnpm-debug.log*
 # Capturas de auditoría (generadas localmente, no necesarias en el repo)
 scripts/audit-output/
 scripts/og-source.svg
+
+# Capturas originales de proyectos (fuentes locales; se publican las versiones optimizadas)
+scripts/project-sources/

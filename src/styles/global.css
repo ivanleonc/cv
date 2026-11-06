@@ -57,6 +57,11 @@
   --success-border:   rgba(16, 185, 129, 0.3);
   --success-dot:      #10b981;
 
+  /* Estado (proyecto en desarrollo) */
+  --status-wip-text:   #fbbf24;
+  --status-wip-bg:     rgba(245, 158, 11, 0.14);
+  --status-wip-border: rgba(245, 158, 11, 0.35);
+
   /* Bordes */
   --border:           rgba(99, 102, 241, 0.25);
   --border-soft:      rgba(255, 255, 255, 0.06);
@@ -124,6 +129,11 @@ body.theme-light {
   --success-bg:       rgba(16, 185, 129, 0.1);
   --success-border:   rgba(5, 150, 105, 0.35);
   --success-dot:      #059669;
+
+  /* Estado (proyecto en desarrollo) */
+  --status-wip-text:   #92400e;
+  --status-wip-bg:     rgba(245, 158, 11, 0.14);
+  --status-wip-border: rgba(180, 83, 9, 0.35);
 
   --border:           rgba(79, 70, 229, 0.25);
   --border-soft:      rgba(15, 23, 42, 0.08);
