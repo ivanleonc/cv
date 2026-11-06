@@ -656,6 +656,22 @@ main[id] {
     gap: 1mm;
   }
 
+  .print-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1mm;
+  }
+
+  .print-tag {
+    white-space: nowrap;
+    border-radius: 10mm;
+    padding: 0.5mm 2mm;
+    font-size: 6pt;
+    color: #a5b4fc !important;
+    background: rgba(99, 102, 241, 0.1) !important;
+    border: 0.5pt solid rgba(99, 102, 241, 0.3) !important;
+  }
+
   .print-skill-item {
     display: flex;
     flex-direction: column;

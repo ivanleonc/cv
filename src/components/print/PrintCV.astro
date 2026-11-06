@@ -9,9 +9,10 @@ const photoSrc = `${base}/profile.jpg`;
 
 // Skills flat para el sidebar
 const allSkillsSidebar = [
-  ...skills.frontend.slice(0, 5),
+  ...skills.frontend.slice(0, 3),
   ...skills.backend.slice(0, 3),
-  ...skills.tools.slice(0, 2),
+  ...skills.devops,
+  ...skills.databases.slice(0, 1),
 ];
 ---
 
@@ -127,6 +128,16 @@ const allSkillsSidebar = [
               <div class="print-skill-bar" style={`width: ${skill.level}%`}></div>
             </div>
           </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Cloud (AWS) -->
+    <div class="print-sidebar-section">
+      <h2 class="print-section-title">C L O U D</h2>
+      <div class="print-tag-list">
+        {skills.cloud.map(service => (
+          <span class="print-tag">{service.name}</span>
         ))}
       </div>
     </div>

@@ -7,7 +7,7 @@ import sharp from 'sharp';
 
 const name = 'Iván León Capote';
 const role = 'Development Engineer';
-const stack = ['Vue.js', 'TypeScript', 'JavaScript', 'PHP', 'WebSockets', 'Pinia'];
+const stack = ['Vue.js', 'TypeScript', 'Node.js', 'NestJS', 'AWS', 'Docker'];
 const location = 'Piendamó, Cauca · Colombia';
 const handles = ['github.com/ivanleonc', 'linkedin.com/in/ivanleoncapote'];
 
@@ -104,7 +104,7 @@ const svg = `
 
   <!-- Rol -->
   <text x="80" y="376" font-family="Arial, Helvetica, sans-serif" font-size="30"
-    fill="#cbd5e1">${role} · Frontend Developer · AI</text>
+    fill="#cbd5e1">${role} · Full Stack · Cloud</text>
 
   <!-- Ubicación -->
   <text x="80" y="416" font-family="Arial, Helvetica, sans-serif" font-size="20"

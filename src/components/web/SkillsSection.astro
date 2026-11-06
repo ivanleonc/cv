@@ -5,14 +5,22 @@ import { cv } from '../../data/cv.js';
 const { skills } = cv;
 
 const categories = [
-  { key: 'frontend', label: 'Frontend', emoji: '🎨', items: skills.frontend },
+  { key: 'frontend', label: 'Frontend', emoji: '🎨', type: 'bars', items: skills.frontend },
+  { key: 'backend', label: 'Backend', emoji: '⚙️', type: 'bars', items: skills.backend },
   {
-    key: 'backend',
-    label: 'Backend y datos',
-    emoji: '⚙️',
-    items: [...skills.backend, ...skills.databases],
+    key: 'cloud',
+    label: 'Cloud & DevOps',
+    emoji: '☁️',
+    type: 'tags',
+    items: [...skills.cloud, ...skills.devops],
   },
-  { key: 'tools', label: 'Herramientas', emoji: '🛠️', items: skills.tools },
+  {
+    key: 'data',
+    label: 'Datos y herramientas',
+    emoji: '🗄️',
+    type: 'bars',
+    items: [...skills.databases, ...skills.tools],
+  },
 ];
 ---
 
@@ -32,30 +40,38 @@ const categories = [
             <span class="skill-cat-emoji" aria-hidden="true">{cat.emoji}</span>
             <h3 class="skill-cat-title">{cat.label}</h3>
           </div>
-          <div class="skill-list">
-            {cat.items.map(skill => (
-              <div class="skill-item">
-                <div class="skill-name-row">
-                  <span class="skill-name">{skill.name}</span>
-                  <span class="skill-pct" aria-hidden="true">{skill.level}%</span>
-                </div>
-                <div
-                  class="skill-bar-bg"
-                  role="progressbar"
-                  aria-label={`Nivel de ${skill.name}`}
-                  aria-valuenow={skill.level}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
+          {cat.type === 'tags' ? (
+            <div class="skill-tags">
+              {cat.items.map(skill => (
+                <span class="pill pill-tech">{skill.name}</span>
+              ))}
+            </div>
+          ) : (
+            <div class="skill-list">
+              {cat.items.map(skill => (
+                <div class="skill-item">
+                  <div class="skill-name-row">
+                    <span class="skill-name">{skill.name}</span>
+                    <span class="skill-pct" aria-hidden="true">{skill.level}%</span>
+                  </div>
                   <div
-                    class="skill-bar"
-                    style={`width: ${skill.level}%`}
-                    data-width={skill.level}
-                  ></div>
+                    class="skill-bar-bg"
+                    role="progressbar"
+                    aria-label={`Nivel de ${skill.name}`}
+                    aria-valuenow={skill.level}
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <div
+                      class="skill-bar"
+                      style={`width: ${skill.level}%`}
+                      data-width={skill.level}
+                    ></div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -100,6 +116,13 @@ const categories = [
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: 0.01em;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-content: flex-start;
   }
 
   .skill-list {

@@ -7,8 +7,8 @@ export interface Props {
 import { cv } from '../data/cv.js';
 
 const {
-  title = 'Iván León Capote — Development Engineer | Vue.js & TypeScript',
-  description = 'Hoja de vida de Iván León Capote, Development Engineer en CariAI. Ingeniero Informático especializado en Vue.js, TypeScript, WebSockets y plataformas de IA conversacional.',
+  title = 'Iván León Capote — Development Engineer | Full Stack · Cloud & AI',
+  description = 'Hoja de vida de Iván León Capote, Development Engineer en CariAI. Ingeniero Informático full-stack especializado en Vue.js, Node.js, TypeScript, AWS y plataformas de IA conversacional.',
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -21,6 +21,8 @@ const knowsAbout = [
   ...skills.frontend.map((s) => s.name),
   ...skills.backend.map((s) => s.name),
   ...skills.databases.map((s) => s.name),
+  ...skills.cloud.map((s) => s.name),
+  ...skills.devops.map((s) => s.name),
   ...skills.tools.map((s) => s.name),
 ];
 

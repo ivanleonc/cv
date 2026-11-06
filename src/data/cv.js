@@ -9,7 +9,7 @@ export const cv = {
   personal: {
     name: 'Iván León Capote',
     title: 'Development Engineer',
-    subtitle: 'Frontend Developer · AI · Ingeniería Informática',
+    subtitle: 'Full Stack Developer · Cloud · AI',
     location: 'Piendamó, Cauca, Colombia',
     email: 'ileoncapote@gmail.com',
     emailAlt: 'idzivan@unimayor.edu.co',
@@ -38,12 +38,11 @@ export const cv = {
   ],
 
   // ── PERFIL PROFESIONAL ────────────────────────────────────
-  profile: `Ingeniero Informático apasionado por la tecnología, el desarrollo web y la innovación.
-Me especializo en la construcción de aplicaciones web escalables y eficientes, con experiencia en el
-diseño de interfaces intuitivas y la integración de tecnologías modernas para mejorar la experiencia del usuario.
+  profile: `Ingeniero Informático con enfoque full-stack. Construyo aplicaciones web escalables de punta a punta:
+interfaces con Vue.js, TypeScript y React, y servicios backend con Node.js (NestJS, Express.js), Next.js y PHP.
 
-Trabajo con APIs REST y WebSockets, garantizando comunicación fluida en tiempo real. Me motiva la optimización
-y el código limpio, buscando siempre mejorar la eficiencia del software a través de buenas prácticas y patrones de diseño.`,
+Trabajo con APIs REST y WebSockets, despliegues en AWS (EC2, S3, Lambda, API Gateway, CloudFront, CloudWatch, IAM),
+contenedores con Docker y entornos Linux. Me motiva el código limpio, la automatización y la mejora continua del rendimiento.`,
 
   // ── EXPERIENCIA LABORAL ───────────────────────────────────
   experience: [
@@ -54,16 +53,18 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
       duration: '4+ años',
       location: 'Popayán, Colombia',
       description:
-        'Ingeniero de desarrollo especializado en la creación de aplicaciones web escalables y eficientes para plataformas de inteligencia artificial conversacional.',
+        'Ingeniero de desarrollo full-stack especializado en la creación de aplicaciones web escalables y eficientes para plataformas de inteligencia artificial conversacional.',
       responsibilities: [
         'Desarrollo y optimización de la Consola de Agentes utilizando Vue.js y JavaScript.',
+        'Desarrollo de servicios y APIs con Node.js (NestJS, Express.js) y PHP, integrados con el frontend en Vue.js.',
+        'Despliegue y operación de servicios en AWS (EC2, S3, Lambda, API Gateway, CloudFront) con Docker y Linux.',
         'Implementación de WebSockets para comunicación en tiempo real dentro de la plataforma.',
         'Gestión de estado con Pinia, garantizando una experiencia fluida y reactiva.',
         'Integración con API REST, refactorizando código para adaptarse a nuevos modelos de datos.',
         'Diseño y desarrollo de componentes reutilizables para mejorar la mantenibilidad del código.',
         'Colaboración con equipos de backend y UX/UI para garantizar un flujo de trabajo eficiente.',
       ],
-      stack: ['Vue.js', 'TypeScript', 'JavaScript', 'PHP', 'Pinia', 'WebSockets', 'Axios', 'HTML', 'CSS'],
+      stack: ['Vue.js', 'TypeScript', 'JavaScript', 'Node.js', 'NestJS', 'Express.js', 'PHP', 'Docker', 'AWS', 'Linux', 'Pinia', 'WebSockets', 'Axios', 'HTML', 'CSS'],
       current: true,
     },
     {
@@ -132,6 +133,10 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
       { name: 'React.js', level: 70 },
     ],
     backend: [
+      { name: 'Node.js', level: 80 },
+      { name: 'NestJS', level: 75 },
+      { name: 'Express.js', level: 80 },
+      { name: 'Next.js', level: 75 },
       { name: 'PHP', level: 75 },
       { name: 'Java', level: 65 },
       { name: 'C#', level: 60 },
@@ -141,12 +146,27 @@ y el código limpio, buscando siempre mejorar la eficiencia del software a trav�
       { name: 'MySQL', level: 75 },
       { name: 'SQL', level: 75 },
     ],
+    cloud: [
+      { name: 'EC2' },
+      { name: 'S3' },
+      { name: 'Lambda' },
+      { name: 'API Gateway' },
+      { name: 'CloudFront' },
+      { name: 'CloudWatch' },
+      { name: 'IAM' },
+      { name: 'CodeCommit' },
+    ],
+    devops: [
+      { name: 'Docker', level: 75 },
+      { name: 'Linux', level: 75 },
+      { name: 'Terminal / Bash', level: 80 },
+    ],
     tools: [
       { name: 'Git / GitHub', level: 85 },
       { name: 'WebSockets', level: 80 },
+      { name: 'API REST', level: 85 },
       { name: 'Pinia', level: 85 },
       { name: 'Axios', level: 80 },
-      { name: 'API REST', level: 85 },
     ],
   },
 
